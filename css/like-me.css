@@ -1,0 +1,28 @@
+.like-div {
+    text-align: center;
+    cursor: pointer;
+}
+
+.like-div:hover {
+    background: #e51c23;
+}
+
+.like-div:hover #like-count,
+.like-div:hover #like-text {
+    color: #fff;
+}
+
+#like-text {
+    color: #e51c23;
+    font-size: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#like-count {
+    color: #e51c23;
+    font-size: 40px;
+    cursor: pointer;
+}
