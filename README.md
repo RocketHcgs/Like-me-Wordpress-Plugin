@@ -12,6 +12,7 @@ WordPress Plugin - Do you like me? https://github.com/DIYgod/Do-you-like-me
   
 # 食用方法  
 下载zip，解压，将Like-me文件夹放入博客目录下的wp-content/plugins文件夹，在插件中启用，在小工具中设置即可  
+在like-me.php中可以设置要使用的数据表
 
 # LICENSE  
 MIT [RocketHcgs](http://www.rhw-team.com/)
