@@ -2,7 +2,7 @@
 WordPress Plugin - Do you like me? https://github.com/DIYgod/Do-you-like-me  
 
 # DEMO
-[RHW Home](http://www.rhw-team.com/Home)  
+[RHW Home](https://home.rhw-team.com/)  
   
 # 声明  
 本插件仅供个人使用，请勿用作商业用途  
@@ -17,4 +17,4 @@ WordPress Plugin - Do you like me? https://github.com/DIYgod/Do-you-like-me
 在like-me.php中可以设置要使用的数据表
 
 # LICENSE  
-MIT [RocketHcgs](http://www.rhw-team.com/)
+MIT [RocketHcgs](http://rockethcgs.me/)
