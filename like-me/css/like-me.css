@@ -1,6 +1,8 @@
 .like-div {
     text-align: center;
     cursor: pointer;
+	-webkit-transition:background 0.2s;
+	transition:background 0.2s;
 }
 
 .like-div:hover {
@@ -19,10 +21,14 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+	-webkit-transition:color 0.2s;
+	transition:color 0.2s;
 }
 
 #like-count {
     color: #e51c23;
     font-size: 40px;
     cursor: pointer;
+	-webkit-transition:color 0.2s;
+	transition:color 0.2s;
 }
