@@ -17,4 +17,4 @@ WordPress Plugin - Do you like me? https://github.com/DIYgod/Do-you-like-me
 本插件仅供个人使用，请勿用作商业用途
 
 # Author
-© RocketHcgs
+© [RocketHcgs](http://rockethcgs.me/)
