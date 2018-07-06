@@ -1,5 +1,6 @@
 # Like-me-Wordpress-Plugin  
-WordPress Plugin - Do you like me? https://github.com/DIYgod/Do-you-like-me
+WordPress Plugin - Do you like me?
+由[DIYgod](http://github.com/DIYgod)的UI组件[Do you like me?](https://github.com/DIYgod/Do-you-like-me)制作的WordPress插件
 
 # DEMO  
 [RHW Home](https://home.rhw-team.com/)  
@@ -7,7 +8,7 @@ WordPress Plugin - Do you like me? https://github.com/DIYgod/Do-you-like-me
 # 介绍  
 - 在侧边栏显示 Do you like me?  
 - 可编辑显示的文字  
-- 每个IP只能like一次
+- 可设置每个IP只能like一次或者无IP限制（v1.1更新内容）
 
 # 食用方法  
 下载zip，解压，将like-me文件夹放入博客目录下的wp-content/plugins文件夹，在插件中启用，在小工具中设置即可  

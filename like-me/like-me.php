@@ -3,7 +3,7 @@
 Description: 可爱的点赞小工具插件
 Author: RocketHcgs
 Author URI: http://www.rhw-team.com/
-Version: 1.0
+Version: 1.1
 License: MIT
 */
 
@@ -21,11 +21,13 @@ class Like_me extends WP_Widget {
 		$defaults = array(
 			'text1'	=> 'Do you like me?',
 			'text2'	=> '我也喜欢你(*≧▽≦)',
-			'text3'	=> '你的爱我已经感受到了~'
+			'text3'	=> '你的爱我已经感受到了~',
+			'ip'    => 'true'
 		);
 		$text1 = empty($instance[ 'text1' ]) ? $defaults[ 'text1' ] : $instance[ 'text1' ];
 		$text2 = empty($instance[ 'text2' ]) ? $defaults[ 'text2' ] : $instance[ 'text2' ];
 		$text3 = empty($instance[ 'text3' ]) ? $defaults[ 'text3' ] : $instance[ 'text3' ];
+		$ip    = $instance[ 'ip' ];
 		?>
 		<p>
 		  <label for="<?php echo $this->get_field_id( 'text1' ); ?>">未点赞时的显示:</label>
@@ -39,6 +41,10 @@ class Like_me extends WP_Widget {
 		  <label for="<?php echo $this->get_field_id( 'text3' ); ?>">重复点赞的显示:</label>
 		  <input class="widefat" type="text" id="<?php echo $this->get_field_id( 'text3' ); ?>" name="<?php echo $this->get_field_name( 'text3' ); ?>" value="<?php echo esc_attr( $text3 ); ?>">
 		</p>
+		<p>
+		  <input type="checkbox" id="<?php echo $this->get_field_id( 'ip' ); ?>" name="<?php echo $this->get_field_name( 'ip' ); ?>" value="true" <?php if( $ip == 'true' ) echo "checked=true"; ?>>
+		  <label for="<?php echo $this->get_field_id( 'ip' ); ?>">一个IP只能点一次</label>
+		</p>
 		<?php
     }
     public function update( $new_instance, $old_instance ) {    
@@ -46,6 +52,7 @@ class Like_me extends WP_Widget {
 		$instance[ 'text1' ] = $new_instance[ 'text1' ];
 		$instance[ 'text2' ] = $new_instance[ 'text2' ];
 		$instance[ 'text3' ] = $new_instance[ 'text3' ];
+		$instance[ 'ip' ]    = $new_instance[ 'ip' ];
 		return $instance;
     }
     public function widget( $args, $instance ) {
@@ -53,9 +60,10 @@ class Like_me extends WP_Widget {
 		$table_name1 = $wpdb->prefix . 'likes';//保存like数量的表
 		$table_name2 = $wpdb->prefix . 'likes_ip';//保存ip的表
 		like_setup( $table_name1, $table_name2 );
-		$now_count = like_get( $table_name1 );
-		$new_count = $now_count + 1;
-		
+		$count = like_get( $table_name1 );
+		?>
+		<script>var count = <?php echo $count; ?>;</script>
+		<?php
 		extract( $args );
 		echo $before_widget;
 		echo '<div class="like-div" onClick="like()">';
@@ -63,32 +71,54 @@ class Like_me extends WP_Widget {
 		echo $instance[ 'text1' ];
 		echo '</div>';
 		echo '<div id="like-count">';
-		echo '<i class="fa fa-heart"></i> ' . $now_count;
+		echo '<i class="fa fa-heart"></i> ' . $count;
 		echo '</div>';
 		echo '</div>';
 		$admin_url = admin_url( 'admin-ajax.php' );
+		if( $instance[ 'ip' ] == 'true' ) {
 		?>
-        <script>
-		function like() {
-			$(function() {
-				var data={
-					action:'like',
-					table1:"<?php echo $table_name1; ?>",
-					table2:"<?php echo $table_name2; ?>",
-					ip:"<?php echo like_get_ip(); ?>"
-				}
-				$.post("<?php echo $admin_url;?>", data, function(response) {
-					if( response!='0' ) {//这里很诡异啊，总是返回'0'
-						$('#like-text').html("<?php echo $instance[ 'text3' ]; ?>");
-					} else {
-						$('#like-text').html("<?php echo $instance[ 'text2' ]; ?>");
-						$('#like-count').html("<?php echo "<i class='fa fa-heart'></i> " . $new_count; ?>");
+        	<script>
+			function like() {
+				$(function() {
+					var data={
+						action:'like',
+						table1:"<?php echo $table_name1; ?>",
+						table2:"<?php echo $table_name2; ?>",
+						ip:"<?php echo like_get_ip(); ?>",
+						ip_limited:"true"
 					}
+					$.post("<?php echo $admin_url;?>", data, function(response) {
+						if( response!='0' ) {//这里很诡异=-=||，总是返回'0'
+							$('#like-text').html("<?php echo $instance[ 'text3' ]; ?>");
+						} else {
+							$('#like-text').html("<?php echo $instance[ 'text2' ]; ?>");
+							$('#like-count').html("<?php echo "<i class='fa fa-heart'></i> " . ($count+1); ?>");
+						}
+					});
 				});
-			});
-		}
-		</script>
+			}
+			</script>
         <?php
+        } else {
+        ?>
+        	<script>
+			function like() {
+				$(function() {
+					var data={
+						action:'like',
+						table1:"<?php echo $table_name1; ?>",
+						ip_limited:"false"
+					}
+					count++;
+					$.post("<?php echo $admin_url;?>", data, function(response) {
+						$('#like-text').html("<?php echo $instance[ 'text2' ]; ?>");
+						$('#like-count').html("<?php echo "<i class='fa fa-heart'></i>"?> "+count.toString());
+					});
+				});
+			}
+			</script>
+        <?php
+        }
 		echo $after_widget;
     }
 }
@@ -131,13 +161,31 @@ function like_get( $table_name ) {
 function like() {
 	global $wpdb;
 	$table_name1 = $_POST['table1'];
-	$table_name2 = $_POST['table2'];
-	$ip = $_POST['ip'];
-	$like = $wpdb->get_var( "SELECT likes FROM $table_name1 WHERE id='1'" );
-	$check = $wpdb->get_var( "SELECT ip FROM $table_name2 WHERE ip='$ip'" );
-	if( isset( $check ) ) {
-		echo 'fuck';
+	if( $_POST['ip_limited'] == 'true' ) {
+		$table_name2 = $_POST['table2'];
+		$ip = $_POST['ip'];
+		$like = $wpdb->get_var( "SELECT likes FROM $table_name1 WHERE id='1'" );
+		$check = $wpdb->get_var( "SELECT ip FROM $table_name2 WHERE ip='$ip'" );
+		if( isset( $check ) ) {
+			echo 'already clicked';
+		} else {
+			$likes = (int)$like + 1;
+			$wpdb->update(
+				$table_name1,
+				array(
+					'likes' => $likes
+				),
+				array(
+					'id' => 1
+			) );
+			$wpdb->insert(
+				$table_name2, 
+				array(
+					'ip' => $ip
+			) );
+		}
 	} else {
+		$like = $wpdb->get_var( "SELECT likes FROM $table_name1 WHERE id='1'" );
 		$likes = (int)$like + 1;
 		$wpdb->update(
 			$table_name1,
