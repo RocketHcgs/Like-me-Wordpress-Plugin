@@ -18,4 +18,4 @@ WordPress Plugin - Do you like me?
 本插件仅供个人使用，请勿用作商业用途
 
 # Author
-© [RocketHcgs](http://rockethcgs.me/)
+© [RocketHcgs](http://rockethcgs.me/), Released under the MIT License.
