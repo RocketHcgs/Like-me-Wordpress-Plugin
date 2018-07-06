@@ -1,5 +1,5 @@
 # Like-me-Wordpress-Plugin  
-WordPress Plugin - Do you like me?
+WordPress Plugin - Do you like me?  
 由[DIYgod](http://github.com/DIYgod)的UI组件[Do you like me?](https://github.com/DIYgod/Do-you-like-me)制作的WordPress插件
 
 # DEMO  
