@@ -3,7 +3,7 @@ WordPress Plugin - Do you like me?
 由[DIYgod](http://github.com/DIYgod)的UI组件[Do you like me?](https://github.com/DIYgod/Do-you-like-me)制作的WordPress插件
 
 # DEMO  
-[RHW Home](https://home.rhw-team.com/)  
+[Rock's Blog](https://rockethcgs.me/)  
 
 # 介绍  
 - 在侧边栏显示 Do you like me?  
@@ -18,4 +18,4 @@ WordPress Plugin - Do you like me?
 本插件仅供个人使用，请勿用作商业用途
 
 # Author
-© [RocketHcgs](http://rockethcgs.me/), Released under the MIT License.
+© [RocketHcgs](https://rockethcgs.me/), Released under the MIT License.
